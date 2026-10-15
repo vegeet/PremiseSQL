@@ -1,0 +1,71 @@
+{
+  "Expression Error": {
+    "name": "Expression Error",
+    "description": "Errors caused by ambiguous or unclear natural language expressions that prevent the query intent from being uniquely mapped to a SQL structure.",
+    "subcategories": {
+      "1.1": {
+        "name": "Ambiguity",
+        "definition": "A required query condition in the user question contains ambiguity in reference, scope, or target object, such that it cannot be uniquely determined using only the given schema and context, resulting in multiple reasonable SQL interpretations.",
+        "checklist": "Are there multiple columns or tables that could reasonably correspond to the same condition?"
+      },
+      "1.2": {
+        "name": "Unclear Intent",
+        "definition": "The user question does not clearly specify the intended query operation type (e.g., filtering, aggregation, sorting, comparison), making the overall SQL structure indeterminate.",
+        "checklist": "Is it impossible to determine whether SELECT, GROUP BY, or ORDER BY clauses are required?"
+      }
+    }
+  },
+  "Premise Contradiction": {
+    "name": "Premise Contradiction",
+    "description": "Errors where the premises stated in the user question are logically inconsistent or directly contradict the given database schema.",
+    "subcategories": {
+      "2.1": {
+        "name": "Internal Text Contradiction",
+        "definition": "Two or more required premises in the user question cannot logically hold at the same time.",
+        "checklist": "Do the stated conditions logically negate or contradict each other?"
+      },
+      "2.2": {
+        "name": "Question–Schema Contradiction",
+        "definition": "Given a complete database schema, the tables, columns, or relationships required by the user question are explicitly absent or disallowed by the schema, making the query logically impossible.",
+        "checklist": "Does the schema explicitly lack the required table, column, or relationship?"
+      }
+    }
+  },
+  "Missing Premise": {
+    "name": "Missing Premise",
+    "description": "Errors arising from missing information required to uniquely or meaningfully execute the query.",
+    "subcategories": {
+      "3.1": {
+        "name": "Missing Constraint",
+        "definition": "Key constraints required to complete the query are not specified, resulting in non-unique or non-evaluable query results.",
+        "checklist": "Is a time range, scope, or target object missing?"
+      },
+      "3.2": {
+        "name": "Missing Schema Premise",
+        "definition": "The table structure, columns, or relationships required to execute the query are not provided to the model.",
+        "checklist": "Does the query require tables or columns that are not given in the schema?"
+      },
+      "3.3": {
+        "name": "Semantic Gap",
+        "definition": "The user uses a concept that has no explicit or implicit semantic mapping in the schema, and no additional business logic or explanation is provided.",
+        "checklist": "Does the query rely on a concept that can only be inferred by guessing?"
+      }
+    }
+  },
+  "Beyond Ability": {
+    "name": "Beyond Ability",
+    "description": "Errors where the user request exceeds the expressive or reasoning capabilities of the given database and SQL.",
+    "subcategories": {
+      "4.1": {
+        "name": "Inexpressible in SQL",
+        "definition": "The user intent cannot be precisely expressed within the capabilities of the given database schema and standard SQL.",
+        "checklist": "Does the query require external reasoning or non-structured data?"
+      },
+      "4.2": {
+        "name": "External Knowledge Required",
+        "definition": "Correct execution of the query depends on implicit facts or world knowledge outside the database.",
+        "checklist": "Does the query require information that is not contained in the database?"
+      }
+    }
+  }
+}
